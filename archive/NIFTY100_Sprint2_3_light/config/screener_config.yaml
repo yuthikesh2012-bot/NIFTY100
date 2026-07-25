@@ -1,0 +1,105 @@
+# config/screener_config.yaml
+#
+# Analyst-editable threshold definitions for the NIFTY100 screener.
+# Edit values here to tune presets without touching src/screener/engine.py.
+
+# ---------------------------------------------------------------------------
+# Filterable metrics catalogue (15 metrics). `column` is the field name on
+# the merged screener DataFrame (see src/screener/data_loader.py).
+# `direction` is "min" (value must be >= threshold) or "max" (value must be
+# <= threshold). Metrics with special handling are noted.
+# ---------------------------------------------------------------------------
+filterable_metrics:
+  roe_min:            { column: return_on_equity_pct,   direction: min }
+  de_max:             { column: debt_to_equity,          direction: max, special: skip_financials_sector }
+  fcf_min:             { column: free_cash_flow_cr,       direction: min }
+  revenue_cagr_5yr_min: { column: revenue_cagr_5yr,       direction: min }
+  pat_cagr_5yr_min:    { column: pat_cagr_5yr,            direction: min }
+  opm_min:             { column: operating_profit_margin_pct, direction: min }
+  pe_max:              { column: pe_ratio,                direction: max }
+  pb_max:              { column: pb_ratio,                direction: max }
+  dividend_yield_min:  { column: dividend_yield_pct,      direction: min }
+  icr_min:             { column: interest_coverage,       direction: min, special: debt_free_is_infinity }
+  market_cap_min:      { column: market_cap_crore,        direction: min }
+  net_profit_min:      { column: net_profit_cr,           direction: min }
+  eps_cagr_min:        { column: eps_cagr_5yr,            direction: min }
+  asset_turnover_min:  { column: asset_turnover,          direction: min }
+  sales_min:           { column: sales_cr,                direction: min }
+  # Extra metric (beyond the 15 core filterable metrics) needed by the
+  # Turnaround Watch preset's "Revenue CAGR 3yr > 10%" rule.
+  revenue_cagr_3yr_min: { column: revenue_cagr_3yr,        direction: min }
+
+# ---------------------------------------------------------------------------
+# 6 preset screeners (Day 16)
+# ---------------------------------------------------------------------------
+presets:
+  quality_compounder:
+    label: "Quality Compounder"
+    rules:
+      roe_min: 15
+      de_max: 1.0
+      fcf_min: 0
+      revenue_cagr_5yr_min: 10
+
+  value_pick:
+    label: "Value Pick"
+    rules:
+      pe_max: 20
+      pb_max: 3.0
+      de_max: 2.0
+      dividend_yield_min: 1
+
+  growth_accelerator:
+    label: "Growth Accelerator"
+    rules:
+      pat_cagr_5yr_min: 20
+      revenue_cagr_5yr_min: 15
+      de_max: 2.0
+
+  dividend_champion:
+    label: "Dividend Champion"
+    rules:
+      dividend_yield_min: 2
+      dividend_payout_max: 80
+      fcf_min: 0
+
+  debt_free_blue_chip:
+    label: "Debt-Free Blue Chip"
+    rules:
+      de_equals: 0
+      roe_min: 12
+      sales_min: 5000
+
+  turnaround_watch:
+    label: "Turnaround Watch"
+    rules:
+      revenue_cagr_3yr_min: 10
+      fcf_positive_latest_year: true
+      de_declining_yoy: true
+
+# ---------------------------------------------------------------------------
+# Composite quality score weights (Day 17) — must sum to 100.
+# ---------------------------------------------------------------------------
+composite_score_weights:
+  profitability:
+    total: 35
+    roe: 15
+    roce: 10
+    npm: 10
+  cash_quality:
+    total: 30
+    fcf_cagr: 15
+    cfo_pat_ratio: 10
+    fcf_positive_flag: 5
+  growth:
+    total: 20
+    revenue_cagr: 10
+    pat_cagr: 10
+  leverage:
+    total: 15
+    de_score: 10
+    icr_score: 5
+
+winsorization:
+  lower_percentile: 10
+  upper_percentile: 90

@@ -1,0 +1,21 @@
+rule,severity,dataset,message
+DQ10,warning,companies,Missing website values
+DQ01,error,profitandloss,Duplicate company_id values detected
+DQ12,warning,profitandloss,Duplicate year values detected
+DQ06,error,profitandloss,Non-positive sales detected
+DQ11,warning,profitandloss,Negative net profit detected
+DQ08,warning,profitandloss,Tax percentage exceeds 40
+DQ01,error,balancesheet,Duplicate company_id values detected
+DQ12,warning,balancesheet,Duplicate year values detected
+DQ01,error,cashflow,Duplicate company_id values detected
+DQ12,warning,cashflow,Duplicate year values detected
+DQ07,warning,cashflow,Negative net cash flow detected
+DQ01,error,analysis,Duplicate company_id values detected
+DQ01,error,documents,Duplicate company_id values detected
+DQ12,warning,documents,Duplicate year values detected
+DQ01,error,prosandcons,Duplicate company_id values detected
+DQ01,error,stock_prices,Duplicate company_id values detected
+DQ01,error,market_cap,Duplicate company_id values detected
+DQ12,warning,market_cap,Duplicate year values detected
+DQ01,error,financial_ratios,Duplicate company_id values detected
+DQ12,warning,financial_ratios,Duplicate year values detected

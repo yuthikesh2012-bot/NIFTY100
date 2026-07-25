@@ -1,0 +1,14 @@
+DATASETS={
+"companies":"companies.xlsx",
+"profitandloss":"profitandloss.xlsx",
+"balancesheet":"balancesheet.xlsx",
+"cashflow":"cashflow.xlsx",
+"analysis":"analysis.xlsx",
+"documents":"documents.xlsx",
+"prosandcons":"prosandcons.xlsx",
+"sectors":"sectors.xlsx",
+"stock_prices":"stock_prices.xlsx",
+"market_cap":"market_cap.xlsx",
+"financial_ratios":"financial_ratios.xlsx",
+"peer_groups":"peer_groups.xlsx",
+}
